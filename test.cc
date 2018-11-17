@@ -6,14 +6,14 @@
 const double LAT = 47.6043313, LNG = -122.3312752;
 
 TEST_CASE("Add single point to root", "[construct]") {
-  KDTree tree = KDTree();
+  KDTree tree = KDTree(2);
 
   Point p1{LAT, LNG};
   REQUIRE_NOTHROW(tree.insert(p1));
 }
 
 TEST_CASE("Add duplicate point throws", "[construct]") {
-  KDTree tree = KDTree();
+  KDTree tree = KDTree(2);
 
   Point p1{LAT, LNG};
   tree.insert(p1);
@@ -21,7 +21,7 @@ TEST_CASE("Add duplicate point throws", "[construct]") {
 }
 
 TEST_CASE("Add multiple unique points", "[construct]") {
-  KDTree tree = KDTree();
+  KDTree tree = KDTree(2);
 
   Point p1{1.1, 1.1};
   Point p2{2.2, 2.2};
@@ -30,7 +30,7 @@ TEST_CASE("Add multiple unique points", "[construct]") {
 }
 
 TEST_CASE("Nearest queries return expected result", "[nearest]") {
-  KDTree tree = KDTree();
+  KDTree tree = KDTree(2);
 
   Point p0{47.604054, -122.355645};
   Point p1{47.628161, -122.309537};

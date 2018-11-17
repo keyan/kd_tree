@@ -38,11 +38,8 @@ private:
     double dist_;
   };
 
-  KDNNResultData nearest(
-      Point& p,
-      KDNode* node,
-      int cut_dimension,
-      KDNNResultData best) {
+  KDNNResultData
+  nearest(Point& p, KDNode* node, int cut_dimension, KDNNResultData best) {
     if (!node) {
       return best;
     }
@@ -55,10 +52,20 @@ private:
 
     if (p.at(cut_dimension) < node->point_.at(cut_dimension)) {
       best = nearest(p, node->left_, (cut_dimension + 1) % dimension_, best);
-      best = nearest(p, node->right_, (cut_dimension + 1) % dimension_, best);
+
+      Point split_point = p;
+      split_point[cut_dimension] = node->point_.at(cut_dimension);
+      if (distance(p, split_point) < best.dist_) {
+        best = nearest(p, node->right_, (cut_dimension + 1) % dimension_, best);
+      }
     } else {
       best = nearest(p, node->right_, (cut_dimension + 1) % dimension_, best);
-      best = nearest(p, node->left_, (cut_dimension + 1) % dimension_, best);
+
+      Point split_point = p;
+      split_point[cut_dimension] = node->point_.at(cut_dimension);
+      if (distance(p, split_point) < best.dist_) {
+        best = nearest(p, node->left_, (cut_dimension + 1) % dimension_, best);
+      }
     }
 
     return best;
@@ -78,11 +85,12 @@ private:
     return node;
   }
 
-  int dimension_ = 2;
+  int dimension_;
   KDNode* root_ = nullptr;
 
 public:
-  KDTree() {}
+  KDTree(int dimension)
+      : dimension_(dimension) {}
 
   void insert(Point p) { root_ = insert(p, root_, 0); }
 
@@ -92,7 +100,6 @@ public:
 
     return result.node_->point_;
   }
-
 };
 
 #endif // KD_TREE_H_

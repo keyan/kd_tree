@@ -29,3 +29,7 @@ clean:
 test:
 	$(G++) tests.out test.cc -I ./$(LIB_DIR)/catch/ -I .
 	./tests.out $(TEST_TAGS)
+
+benchmark:
+	$(G++) main.out main.cc -I .
+	./main.out
