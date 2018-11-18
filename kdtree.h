@@ -1,5 +1,5 @@
-#ifndef KD_TREE_H_
-#define KD_TREE_H_
+#ifndef KDTREE_H_
+#define KDTREE_H_
 
 #include <iostream>
 #include <stdexcept>
